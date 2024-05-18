@@ -1,0 +1,1 @@
+cp -r packages sublime_symbols.py SublimeSymbols.sublime-settings ~/.config/sublime-text/Packages/User

@@ -40,22 +40,24 @@ class ReplaceListener(sublime_plugin.EventListener):
         print(enabled)
         self.current_map = load_symbol_packages(enabled)
 
-    def on_modified(self, view):
-        point = view.sel()[0].begin()
-        # Get the row and column of the current cursor position
-        row, col = view.rowcol(point)
+    def on_modified(self, view: sublime.View):
+        sel = view.sel()
+        if len(sel) > 0:
+            point = sel[0].begin()
+            # Get the row and column of the current cursor position
+            row, col = view.rowcol(point)
 
-        # Get the line text
-        line_region = view.line(point)
-        current_line = view.substr(line_region)
+            # Get the line text
+            line_region = view.line(point)
+            current_line = view.substr(line_region)
 
-        for suffix, replacement in self.current_map.items():
-            if current_line.endswith(suffix):
-                view.run_command(
-                    "replace_string",
-                    {
-                        "start": line_region.end() - len(suffix),
-                        "end": line_region.end(),
-                        "text": replacement,
-                    },
-                )
+            for suffix, replacement in self.current_map.items():
+                if current_line.endswith(suffix):
+                    view.run_command(
+                        "replace_string",
+                        {
+                            "start": line_region.end() - len(suffix),
+                            "end": line_region.end(),
+                            "text": replacement,
+                        },
+                    )
