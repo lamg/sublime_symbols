@@ -37,8 +37,11 @@ class ReplaceStringCommand(sublime_plugin.TextCommand):
 class ReplaceListener(sublime_plugin.EventListener):
     def __init__(self):
         enabled = enabled_symbol_packages()
-        print(enabled)
         self.current_map = load_symbol_packages(enabled)
+
+    def on_query_completions(self, view, prefix, locations):
+        completions = [(f"{k}\t{v}", v) for k, v in self.current_map.items()]
+        return completions
 
     def on_modified(self, view: sublime.View):
         sel = view.sel()
