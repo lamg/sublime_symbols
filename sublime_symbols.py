@@ -40,7 +40,12 @@ class ReplaceListener(sublime_plugin.EventListener):
         self.current_map = load_symbol_packages(enabled)
 
     def on_query_completions(self, view, prefix, locations):
-        completions = [(f"{k}\t{v}", v) for k, v in self.current_map.items()]
+        completions = [
+            sublime.CompletionItem(
+                k, completion=v, kind=sublime.KIND_SNIPPET, details=v, annotation=v
+            )
+            for k, v in self.current_map.items()
+        ]
         return completions
 
     def on_modified(self, view: sublime.View):
