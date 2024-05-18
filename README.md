@@ -7,7 +7,7 @@ JSON objects like the following:
 
 ```json
 {
-	"==": "≡",
-	"&&": "∧"
+	":eq:": "≡",
+	":and:": "∧"
 }
 ```
